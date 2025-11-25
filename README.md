@@ -9,6 +9,11 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
 
 - create a self-hosted C# .Net 8+  Java or React solution
 
+    ### Notes about tech choice
+
+    - I chose to use a React/Node tech stack given my previous experience with react and interest in building a simple front-end component. 
+    - I also already had a node environment set up locally on my machine, which made configuring the project simpler.
+
 - consume the api and expose a new api that:
 
 - takes the symbol as a string parameter
