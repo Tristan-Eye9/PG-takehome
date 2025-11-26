@@ -107,3 +107,15 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
         }
     ]
     ```
+
+    ## Design Decisions
+    - Chose a Minimal API in .NET 10 to keep the implementation lightweight and aligned with modern best practices. 
+    This approach minimized boilerplate and made the service easy to configure and run.
+    - Due to Alpha Vantage’s free tier limitations, only ~100 intraday points are available at 15‑minute intervals. 
+    The grouping and averaging logic was designed, through testing, to scale seamlessly to a full month if premium access were available.
+    - The HTTPS redirection warning appears in development when no certificate is configured. Since the API functions correctly over HTTP, 
+    this does not affect submission or functionality.
+    - Used the default .NET `.gitignore` template to ensure build artifacts (`bin/`, `obj/`) and environment files (`.env`) are excluded, 
+    while keeping all necessary source and configuration files in the repository.
+    - Output is formatted JSON that matches the specification exactly (`day`, `lowAverage`, `highAverage`, `volume`). When faced with trade‑offs, 
+    I prioritized adherence to the design requirements.
