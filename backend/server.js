@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'Express is working!' });
 });
 
-// Intraday API usage
+// Intraday API usage DELETE ME
 
 // Intraday API Route for testing purposes
 // Example usage: http://localhost:3001/api/intraday/IBM
@@ -87,8 +87,8 @@ try {
 
   const result = Object.entries(GroupByDay).map(([day, total]) => ({
     day,
-    lowAverage: total.lowSum / total.count,
-    highAverage: total.highSum / total.count,
+    lowAverage: parseFloat((total.lowSum / total.count).toFixed(4)),
+    highAverage: parseFloat((total.highSum / total.count).toFixed(4)),
     volume: total.volumeSum
   }));
 
