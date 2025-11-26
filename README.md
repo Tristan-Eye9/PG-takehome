@@ -64,3 +64,8 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
     
 
 - commit(s) to a github repository and provide link OR zip the contents and share
+
+## Running the Programs
+
+### dotNet API
+- Packages: DotNetEnV
