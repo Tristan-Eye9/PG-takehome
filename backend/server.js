@@ -5,17 +5,9 @@ const PORT = 3001;
 require('dotenv').config();
 const apiKey = process.env.ALPHAVANTAGE_API_KEY;
 
-// DELETE ME LATER
-// Simple test route 
-app.get('/', (req, res) => {
-    res.json({ message: 'Express is working!' });
-});
-
-// Intraday API usage DELETE ME
-
 // Intraday API Route for testing purposes
 // Example usage: http://localhost:3001/api/intraday/IBM
-app.get('/api/intraday/:symbol', async(req, res) => {
+app.get('/test/intraday/:symbol', async(req, res) => {
   const {symbol} = req.params;
   //URL using params similar to documentation
   const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=15min&apikey=${apiKey}`;
@@ -40,7 +32,8 @@ catch (issue){
 });
 
 // Actual implementation for data translation and endpoint configuration.
-app.get('/api2/intraday/:symbol', async(req, res) => {
+// Example usage: http://localhost:3001/api/intraday/IBM
+app.get('/api/intraday/:symbol', async(req, res) => {
   const {symbol} = req.params;
   //URL using params similar to documentation
   const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=15min&outputsize=compact&apikey=${apiKey}`;
