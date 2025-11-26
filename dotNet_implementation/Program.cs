@@ -22,8 +22,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-
 app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     var timeInterval = "15min"; // Hardcoded due to specifications, but can be changed for testing
     var apiKey = Environment.GetEnvironmentVariable("ALPHAVANTAGE_API_KEY");
