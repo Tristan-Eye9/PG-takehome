@@ -8,7 +8,7 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
 ## Requirements
 
 - create a self-hosted C# .Net 8+  Java or React solution
-    - This project is implemented as a Minimal API in .NET 8.
+    - This project is implemented as a Minimal API in .NET 10.
     - API keys are stored securely in environment variables via .env and never exposed client‑side.
 
     ### Notes about tech choice
@@ -78,7 +78,7 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     1. Clone the project.
     2. Create an .env in the project root with: ALPHAVANTAGE_API_KEY=your_api_key_here
     3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
-    Be sure it is loaded into the project.
+    Be sure it is loaded into the project, as it loads environment variables.
     4. Run the API while in the root directory:
     ```
     dotnet run
