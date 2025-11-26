@@ -55,7 +55,12 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
             "volume": 49073348
 
         },
+        ...
+    ]
+    ```
 
-    ...
+    - Formatting and display is fully done in React. React is given the information from the API and displays it as per
+    spec requirements.
+    
 
 - commit(s) to a github repository and provide link OR zip the contents and share
