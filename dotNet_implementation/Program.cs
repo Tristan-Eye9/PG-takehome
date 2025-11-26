@@ -20,6 +20,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     var timeInterval = "15min"; // Hardcoded due to specifications, but can be changed for testing
+    var outputSize = "compact"; // Full would meet the specifications, but since it requires premium, I'm using compact.
     var apiKey = Environment.GetEnvironmentVariable("ALPHAVANTAGE_API_KEY");
     if (string.IsNullOrWhiteSpace(apiKey)) 
         return Results.BadRequest(new
@@ -29,7 +30,7 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     
     // NOTE: that I cannot actually test outputsize=full without a premium API key. The logic should carry to higher date ranges, however.
     // According to documentation, 'full' would return trailing 30 days, but requires a premium key.
-    var url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={timeInterval}&outputsize=compact&apikey={apiKey}";
+    var url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={timeInterval}&outputsize={outputSize}&apikey={apiKey}";
     using var http = new HttpClient();
     var response = await http.GetAsync(url);
 
