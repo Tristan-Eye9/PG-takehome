@@ -32,6 +32,10 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
 
 - assume the data is updated every 15 minutes
 
+    - Interestingly, I can showcase how the logic scales by using a different time interval in the intraday function. I'll get 
+    approximately 8 - 10 days of data using this method. It's by no means a perfect test, but it is practical and only uses the 
+    free tier of the API.
+
 - groups by the day
 
 - returns a json response in this format:
