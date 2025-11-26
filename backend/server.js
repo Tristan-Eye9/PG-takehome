@@ -99,5 +99,5 @@ catch (issue){
 
 // Listen here
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}. Use http://localhost:3001/api/intraday/IBM as an example.`);
 });
