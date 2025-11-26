@@ -26,6 +26,10 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
 
 - queries the intraday data for last month
 
+    - Important note regarding API tiers: AlphaVantage free tier only provides around 2 days of data to look at(outputsize=compact).
+    This logic should work for any range between 2 days and the 2 months that the premium key might allow. For this submission, I 
+    think the logic demonstrates that it would scale up appropriately with a whole month.
+
 - assume the data is updated every 15 minutes
 
 - groups by the day
