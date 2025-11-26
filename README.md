@@ -11,10 +11,16 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
 
     ### Notes about tech choice
 
-    - I chose to use a React/Node tech stack given my previous experience with react and interest in building a simple front-end component. 
-    - I also already had a node environment set up locally on my machine, which made configuring the project simpler.
+    - I chose to use a React/Node tech stack given my previous experience with react and node, as well as demonstrating tiered 
+    web development (front-end, middle-end, back-end).
+    - Since the specifications allowed for a React solution and that React alone can’t expose an API, I paired it with Node/Express to securely 
+    consume Alpha Vantage and return the required format. The program architecture still remains very simple despite a second tier.
+    - I also already had a node/react environment set up locally on my machine, which made configuring the development environment simpler.
 
 - consume the api and expose a new api that:
+
+    - Note: Node will consume and translate the API, and then react will get the information accordingly.
+    - By design the front-end tier, React in this case, will be relatively simple.
 
 - takes the symbol as a string parameter
 

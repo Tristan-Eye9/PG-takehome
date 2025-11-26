@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
 // Intraday API usage
 
-// Intraday API Route
+// Intraday API Route for testing purposes
 // Example usage: http://localhost:3001/api/intraday/IBM
 app.get('/api/intraday/:symbol', async(req, res) => {
   const {symbol} = req.params;
