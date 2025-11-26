@@ -1,17 +1,13 @@
-
 using System.Globalization;
 using System.Text.Json; //For simple Json Parsing
 using DotNetEnv; // For importing .env variables (my api key)
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Load .env file into environment variables
 Env.Load();
-
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +27,8 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
             error = "Missing ALPHAVANTAGE_API_KEY"
         });
     
+    // NOTE: that I cannot actually test outputsize=full without a premium API key. The logic should carry to higher date ranges, however.
+    // According to documentation, 'full' would return trailing 30 days, but requires a premium key.
     var url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={timeInterval}&outputsize=compact&apikey={apiKey}";
     using var http = new HttpClient();
     var response = await http.GetAsync(url);
@@ -57,7 +55,7 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     if (root.TryGetProperty("Information", out var info))
         return Results.BadRequest(new { error = info.GetString() });
     // End error handling
-    
+
     // If supported timeInterval, populate timeSeries
     if (!root.TryGetProperty($"Time Series ({timeInterval})", out var timeSeries))
         return Results.BadRequest(new { error = "No time series data found" });
@@ -93,8 +91,9 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     }
 
     // perform final arithmetic
-    var results = groupByDay.Select(kvp => new
+    var results = groupByDay.OrderByDescending(kvp => kvp.Key).Select(kvp => new
     {
+        
         day = kvp.Key,
         lowAverage = Math.Round(kvp.Value.lowSum / kvp.Value.count, 4),
         highAverage = Math.Round(kvp.Value.highSum / kvp.Value.count, 4),
@@ -107,4 +106,3 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
 });
 
 app.Run();
-
