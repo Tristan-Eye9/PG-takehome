@@ -46,10 +46,18 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     using var preParse = JsonDocument.Parse(json);
     var root = preParse.RootElement;
 
+    // Begin error handling
     // Check for "Note" output the alphavantage api sometimes gives
     if (root.TryGetProperty("Note", out var note))
         return Results.BadRequest(new { error = note.GetString() });
 
+    if (root.TryGetProperty("Error Message", out var errorMessage))
+        return Results.BadRequest(new { error = errorMessage.GetString() });
+
+    if (root.TryGetProperty("Information", out var info))
+        return Results.BadRequest(new { error = info.GetString() });
+    // End error handling
+    
     // If supported timeInterval, populate timeSeries
     if (!root.TryGetProperty($"Time Series ({timeInterval})", out var timeSeries))
         return Results.BadRequest(new { error = "No time series data found" });
