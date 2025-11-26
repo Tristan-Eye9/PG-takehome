@@ -11,10 +11,10 @@ A take-home assessment for PG. It utilizes a react-front end with a node/express
 
     ### Notes about tech choice
 
-    - I chose to use a React/Node tech stack given my previous experience with react and node, as well as demonstrating tiered 
-    web development (front-end, middle-end, back-end).
-    - Since the specifications allowed for a React solution and that React alone can’t expose an API, I paired it with Node/Express to securely 
-    consume Alpha Vantage and return the required format. The program architecture still remains very simple despite a second tier.
+    - React is a browser UI library and cannot host an HTTP endpoint or securely store API keys. To meet the assignment’s core 
+    requirement—expose a self‑hosted JSON endpoint—the backend is implemented in Node/Express. Node/Express provides the ability 
+    to: host the API and listen for requests; keep the Alpha Vantage key server‑side; and handle logging and structured errors. 
+    The React app is included only as an optional demo client to visualize and exercise the endpoint.
     - I also already had a node/react environment set up locally on my machine, which made configuring the development environment simpler.
 
 - consume the api and expose a new api that:
