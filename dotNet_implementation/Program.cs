@@ -1,7 +1,6 @@
 
 using System.Globalization;
 using System.Text.Json; //For simple Json Parsing
-using System.Text.RegularExpressions;
 using DotNetEnv; // For importing .env variables (my api key)
 
 var builder = WebApplication.CreateBuilder(args);
