@@ -58,18 +58,23 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
 
     foreach (var kvp in timeSeries.EnumerateObject())
     {
+
+        // set up timestamp sorting
         var timestamp = kvp.Name; // gives full timestamp with time included
         var day = timestamp.Substring(0, 10); //Strips the time from the timestamp YYYY-MM-DD
 
+        // set up each entry in the dictionary
         var entry = kvp.Value;
         var low = decimal.Parse(entry.GetProperty("3. low").GetString()!, CultureInfo.InvariantCulture);
         var high = decimal.Parse(entry.GetProperty("2. high").GetString()!, CultureInfo.InvariantCulture);
         var volume = long.Parse(entry.GetProperty("5. volume").GetString()!, CultureInfo.InvariantCulture);
 
+        // initialize a day that doesn't exist
         if (!groupByDay.ContainsKey(day)){
         groupByDay[day] = (0m, 0m, 0L, 0);
         }
 
+        // perform summation arithmetic
         var current = groupByDay[day];
         groupByDay[day] = (
             current.lowSum + low,
@@ -78,8 +83,7 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
             current.count + 1);
     }
 
-    // perform final calculations
-
+    // perform final arithmetic
     var results = groupByDay.Select(kvp => new
     {
         day = kvp.Key,
@@ -88,8 +92,9 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
         volume = kvp.Value.volumeSum
     });
     
+    // The specifications want pretty indentions, so I've turned them on
     var options = new JsonSerializerOptions {WriteIndented = true};
-    return Results.Json(results, options);
+    return Results.Json(results, options); //Return transformed data
 });
 
 app.Run();
