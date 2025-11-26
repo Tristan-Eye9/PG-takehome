@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json; //For simple Json Parsing
 using DotNetEnv; // For importing .env variables (my api key)
+using System.IO; // For testing IO
 var builder = WebApplication.CreateBuilder(args);
 
 // Load .env file into environment variables
@@ -11,35 +12,43 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()){
     app.MapOpenApi();
 }
-
 app.UseHttpsRedirection();
 
 app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     var timeInterval = "15min"; // Hardcoded due to specifications, but can be changed for testing
     var outputSize = "compact"; // Full would meet the specifications, but since it requires premium, I'm using compact.
-    var apiKey = Environment.GetEnvironmentVariable("ALPHAVANTAGE_API_KEY");
-    if (string.IsNullOrWhiteSpace(apiKey)) 
-        return Results.BadRequest(new
+    var useFixture = Environment.GetEnvironmentVariable("USE_FIXTURE") == "true";
+    string json;
+
+    if (useFixture) {
+        var fixturePath = Path.Combine(Directory.GetCurrentDirectory(), "fixtures", "intraday_15min_month.json");
+        if (!File.Exists(fixturePath))
         {
-            error = "Missing ALPHAVANTAGE_API_KEY"
-        });
-    
-    // NOTE: that I cannot actually test outputsize=full without a premium API key. The logic should carry to higher date ranges, however.
-    // According to documentation, 'full' would return trailing 30 days, but requires a premium key.
-    var url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={timeInterval}&outputsize={outputSize}&apikey={apiKey}";
-    using var http = new HttpClient();
-    var response = await http.GetAsync(url);
+            // Try repo-root relative path as a fallback
+            fixturePath = Path.Combine(AppContext.BaseDirectory, "fixtures", "intraday_15min_month.json");
+        }
 
-    if (!response.IsSuccessStatusCode)
-        return Results.StatusCode((int)response.StatusCode);
-    
-    var json = await response.Content.ReadAsStringAsync();
+        if (!File.Exists(fixturePath))
+            return Results.BadRequest(new { error = $"Fixture not found at expected paths. Create fixtures/intraday_15min_month.json or unset USE_FIXTURE." });
 
-    //TODO: Parse the response
+        json = await File.ReadAllTextAsync(fixturePath);
+    }
+    else {
+        var apiKey = Environment.GetEnvironmentVariable("ALPHAVANTAGE_API_KEY");
+        if (string.IsNullOrWhiteSpace(apiKey))
+            return Results.BadRequest(new { error = "Missing ALPHAVANTAGE_API_KEY" });
+
+        var url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={timeInterval}&outputsize={outputSize}&apikey={apiKey}";
+        using var http = new HttpClient();
+        var response = await http.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+            return Results.StatusCode((int)response.StatusCode);
+
+        json = await response.Content.ReadAsStringAsync();
+    }
 
     // Parse initial Json
     using var preParse = JsonDocument.Parse(json);
