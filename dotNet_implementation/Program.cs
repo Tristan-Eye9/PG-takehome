@@ -1,6 +1,7 @@
 
 using System.Globalization;
 using System.Text.Json; //For simple Json Parsing
+using System.Text.RegularExpressions;
 using DotNetEnv; // For importing .env variables (my api key)
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +45,7 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
 
     //TODO: Parse the response
 
-    //Set up map
+    // Parse initial Json
     using var preParse = JsonDocument.Parse(json);
     var root = preParse.RootElement;
 
@@ -52,22 +53,43 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     if (!root.TryGetProperty($"Time Series ({timeInterval})", out var timeSeries))
         return Results.BadRequest(new { error = "No time series data found" });
 
-    //build tuples
-    var data = new List<(decimal low, decimal high, long volume)>();
+    // Dictionary keyed by day
+    var groupByDay = new Dictionary<string, (decimal lowSum, decimal highSum, long volumeSum, int count)>();
 
-    foreach (var i in timeSeries.EnumerateObject())
+    foreach (var kvp in timeSeries.EnumerateObject())
     {
-        var entry = i.Value;
-        
+        var timestamp = kvp.Name; // gives full timestamp with time included
+        var day = timestamp.Substring(0, 10); //Strips the time from the timestamp YYYY-MM-DD
+
+        var entry = kvp.Value;
         var low = decimal.Parse(entry.GetProperty("3. low").GetString()!, CultureInfo.InvariantCulture);
         var high = decimal.Parse(entry.GetProperty("2. high").GetString()!, CultureInfo.InvariantCulture);
         var volume = long.Parse(entry.GetProperty("5. volume").GetString()!, CultureInfo.InvariantCulture);
 
-        data.Add((low, high, volume));
-    }
-    
-    return Results.Text(json, "application/json");
+        if (!groupByDay.ContainsKey(day)){
+        groupByDay[day] = (0m, 0m, 0L, 0);
+        }
 
+        var current = groupByDay[day];
+        groupByDay[day] = (
+            current.lowSum + low,
+            current.highSum + high,
+            current.volumeSum + volume,
+            current.count + 1);
+    }
+
+    // perform final calculations
+
+    var results = groupByDay.Select(kvp => new
+    {
+        day = kvp.Key,
+        lowAverage = Math.Round(kvp.Value.lowSum / kvp.Value.count, 4),
+        highAverage = Math.Round(kvp.Value.highSum / kvp.Value.count, 4),
+        volume = kvp.Value.volumeSum
+    });
+    
+    var options = new JsonSerializerOptions {WriteIndented = true};
+    return Results.Json(results, options);
 });
 
 app.Run();
