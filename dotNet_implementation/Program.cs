@@ -100,7 +100,7 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
 
     // perform final arithmetic. Average each day using the stored count of entries that day.
     // Note: While count could theoretically be hardcoded due to X time always being in a given 
-    // day, defensive coding here was more practical.
+    // day, defensive coding here was more practical, and it is one less magic number.
     var results = groupByDay.OrderByDescending(kvp => kvp.Key).Select(kvp => new {
         day = kvp.Key,
         lowAverage = Math.Round(kvp.Value.lowSum / kvp.Value.count, 4),
