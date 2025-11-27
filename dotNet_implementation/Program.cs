@@ -29,8 +29,7 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
 
     if (useFixture) {
         var fixturePath = Path.Combine(Directory.GetCurrentDirectory(), "fixtures", "intraday_15min_month.json");
-        if (!File.Exists(fixturePath))
-        {
+        if (!File.Exists(fixturePath)){
             // Try repo-root relative path as a fallback
             fixturePath = Path.Combine(AppContext.BaseDirectory, "fixtures", "intraday_15min_month.json");
         }
