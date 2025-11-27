@@ -36,10 +36,10 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
 - assume the data is updated every 15 minutes
 
     - Hardcoded to "15min" per specification.
-    - Interestingly, Alpha Vantage’s free tier only returns ~100 intraday points (compact mode), which is usually 1–2 trading days 
+    - Alpha Vantage’s free tier only returns ~100 intraday points (compact mode), which is usually 1–2 trading days 
     at 15‑minute intervals. The same grouping/averaging logic would scale to a full month if premium access (outputsize=full) were available.
-    - I built a simple CS script that generates test cases in my test branch. It can process a full month of data, and for further details refer
-    to the testing section.
+    - A simple CS script was built to test cases in the test branch. It helped test if the app could process a full month of data. For 
+    further details refer to the testing section.
 
 - groups by the day
 
@@ -114,13 +114,13 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     - Chose a Minimal API in .NET 10 to keep the implementation lightweight and aligned with modern best practices. 
     This approach minimized boilerplate and made the service easy to configure and run.
     - Due to Alpha Vantage’s free tier limitations, only ~100 intraday points are available at 15‑minute intervals. 
-    The grouping and averaging logic was designed, through testing, to scale seamlessly to a full month if premium access were available.
+    The grouping and averaging logic was designed to scale seamlessly to a full month if premium access were available. It was further
+    tested through my 
     - The HTTPS redirection warning appears in development when no certificate is configured. Since the API functions correctly over HTTP, 
     this does not affect submission or functionality.
     - Used the default .NET `.gitignore` template to ensure build artifacts (`bin/`, `obj/`) and environment files (`.env`) are excluded, 
     while keeping all necessary source and configuration files in the repository.
-    - Output is formatted JSON that matches the specification exactly (`day`, `lowAverage`, `highAverage`, `volume`). When faced with trade‑offs, 
-    I prioritized adherence to the design requirements.
+    - When faced with trade‑offs, I prioritized adherence to the design requirements.
 
     ## Test Branch
 
@@ -129,13 +129,14 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     - Here are simple instructions to use the test branch. Otherwise a generated Json is already in the 'fixtures' folder of the primary project.
 
         1. Essentially, there are 2 differences from the primary deployment. The Tool folder essentially exists as a host for a second dotNet project.
-        It's a simple script designed to take a seed, and other basic user input, and output a Json shaped like the intraday outputs. There isn't guarenteed
+        It's a simple script designed to take a seed, and other basic user input, and output a Json shaped like the intraday outputs. There isn't guaranteed
         accuracy to the actual market, but that isn't important for testing.
-        2. To begin using it, navigate to the tools directory, and in the console perform 'dotnet run.' This should generate a JSON in the 'fixtures'
-        folder. Move this JSON manually to the second 'fixtures' folder in the dotNet_implementation directory.
-        3. Ensure that an additional line in the .env environment exists. This will basically inject the Json into the program instead of using the actual API.
+        2. To begin using it, navigate to the tools directory, and in the console perform 'dotnet run.' Run the generator in tools/, which outputs 
+        a JSON to tools/fixtures/. Copy that file into dotNet_implementation/fixtures/.
+        3. Ensure that an additional line in the .env file exists. This will inject the Json into the program instead of using the actual API.
             ```
             USE_FIXTURE=true
             ```
-        4. Inspect the output via the exposed endpoint- nothing changes in this part of the process because of the way the switch works. Output
-        verification can be performed by-hand, since automating a check wouldn't be useful due to replication of API logic.
+        4. Inspect the output via the exposed endpoint via browser or curl- nothing changes in this part of the process because 
+        of the way the switch works. Output verification can be performed by-hand, since automating a check wouldn't be useful 
+        due to replication of API logic.
