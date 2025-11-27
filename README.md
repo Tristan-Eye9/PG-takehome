@@ -78,10 +78,10 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
 
     ### Setup
     1. Clone the project.
-    2. Create an `.env` file in the /dotNet_implementation directory with: ALPHAVANTAGE_API_KEY=your_api_key_here
+    2. Create an `.env` file in the `/dotNet_implementation` directory with: ALPHAVANTAGE_API_KEY=your_api_key_here
     3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
     Be sure it is loaded into the project, as it loads environment variables.
-    4. Run the API while in the /dotNet_implementation directory:
+    4. Run the API while in the `/dotNet_implementation` directory:
     ```
     dotnet run
     ```
@@ -125,7 +125,7 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     ## Test Branch
 
     - After careful consideration of project scope and limitations, a Json generator and injector were developed to 'simulate'
-    what a full month would function with access to the AlphaVantage Premium features.
+    how a full month would function if I access to the AlphaVantage Premium features.
     - Here are simple instructions to use the test branch. Otherwise a generated Json is already in the 'fixtures' folder of the primary project.
 
         1. Essentially, there are 2 differences from the primary deployment. The Tool folder essentially exists as a host for a second dotNet project.
