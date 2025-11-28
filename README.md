@@ -1,7 +1,50 @@
 # PG-takehome
 A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal API to consume Alpha Vantage intraday data and expose a new JSON endpoint.
 
-# Project Description (For Reference)
+## Running the Programs
+
+- Note that this process should be relatively simple. It should be very similar to running the .Net template when creating a new web API.
+
+    ### Prerequisites
+    - .Net 10 sdk installed
+    - Alphavantage API key (free or premium)
+
+    ### Setup
+    1. Clone the project.
+    2. Create an `.env` file in the `/dotNet_implementation` directory with: ALPHAVANTAGE_API_KEY=your_api_key_here
+        3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
+        Be sure it is loaded into the project, as it loads environment variables.
+    4. Run the API while in the `/dotNet_implementation` directory:
+    ```
+    dotnet run
+    ```
+    5. The API will start locally (default: http://localhost:5251).
+
+    ### Example Request
+    ```
+    curl http://localhost:5251/api/intraday/MSFT
+    ```
+
+    ### Example Response
+    ```
+    [
+        {
+            "day": "2025-11-25",
+            "lowAverage": 472.1556,
+            "highAverage": 475.7339,
+            "volume": 38883569
+        },
+        {
+            "day": "2025-11-24",
+            "lowAverage": 471.4530,
+            "highAverage": 477.0950,
+            "volume": 33357081
+        }
+    ]
+    ```
+
+
+# Project Description & Commentary (For Reference)
 
 - see: https://www.alphavantage.co/documentation/
 
@@ -68,48 +111,6 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     - The API gracefully handles Alpha Vantage’s "Note", "Error Message", and "Information" responses.
     - Clear JSON error messages are returned instead of crashes.
     
-## Running the Programs
-
-- Note that this process should be relatively simple. It should be very similar to running the .Net template when creating a new web API.
-
-    ### Prerequisites
-    - .Net 10 sdk installed
-    - Alphavantage API key (free or premium)
-
-    ### Setup
-    1. Clone the project.
-    2. Create an `.env` file in the `/dotNet_implementation` directory with: ALPHAVANTAGE_API_KEY=your_api_key_here
-    3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
-    Be sure it is loaded into the project, as it loads environment variables.
-    4. Run the API while in the `/dotNet_implementation` directory:
-    ```
-    dotnet run
-    ```
-    5. The API will start locally (default: http://localhost:5251).
-
-    ### Example Request
-    ```
-    curl http://localhost:5251/api/intraday/MSFT
-    ```
-
-    ### Example Response
-    ```
-    [
-        {
-            "day": "2025-11-25",
-            "lowAverage": 472.1556,
-            "highAverage": 475.7339,
-            "volume": 38883569
-        },
-        {
-            "day": "2025-11-24",
-            "lowAverage": 471.4530,
-            "highAverage": 477.0950,
-            "volume": 33357081
-        }
-    ]
-    ```
-
 ## Design Decisions
 - Chose a Minimal API in .NET 10 to keep the implementation lightweight and aligned with modern best practices. 
 This approach minimized boilerplate and made the service easy to configure and run.
