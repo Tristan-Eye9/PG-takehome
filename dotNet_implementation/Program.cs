@@ -22,6 +22,16 @@ if (app.Environment.IsDevelopment()){
 app.UseHttpsRedirection();
 
 // GET endpoint: Returns transformed intraday data as a formatted json
+// Expected Response: 
+//    [
+//        {
+//            "day": "YYYY-MM-DD",
+//            "lowAverage": XX.XXXX,
+//            "highAverage": XX.XXXX,
+//            "volume": XXXXXXXX
+//        },
+//        ...
+//    ]
 // Route: /api/intraday/{symbol}
 // Example call: http://localhost:5251/api/intraday/IBM
 app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
@@ -45,7 +55,6 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     var json = await response.Content.ReadAsStringAsync();
 
     // Begin Json transformation here 
-
     // Parse initial Json
     using var preParse = JsonDocument.Parse(json);
     var root = preParse.RootElement;
