@@ -36,7 +36,7 @@ app.UseHttpsRedirection();
 // Example call: http://localhost:5251/api/intraday/IBM
 app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     var timeInterval = "15min"; // Hardcoded due to specifications, but can be changed for testing
-    var outputSize = "compact"; // Full would meet the specifications, but since it requires premium, I'm using compact.
+    var outputSize = "compact"; // Full would meet the specifications, but since it requires premium, default to compact.
     var apiKey = Environment.GetEnvironmentVariable("ALPHAVANTAGE_API_KEY");
     if (string.IsNullOrWhiteSpace(apiKey)) 
         return Results.BadRequest(new{
