@@ -12,8 +12,8 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     ### Setup
     1. Clone the project.
     2. Create an `.env` file in the `/dotNet_implementation` directory with: ALPHAVANTAGE_API_KEY=your_api_key_here
-        3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
-        Be sure it is loaded into the project, as it loads environment variables.
+    3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
+    Be sure it is loaded into the project, as it loads environment variables.
     4. Run the API while in the `/dotNet_implementation` directory:
     ```
     dotnet run
