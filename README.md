@@ -15,7 +15,7 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     3. This project uses [DotNetEnv](https://www.nuget.org/packages/DotNetEnv) to load environment variables from a `.env` file.
     Be sure it is loaded into the project, as it loads environment variables.
     4.  IMPORTANT NOTE: Due to limitations of the free alphavantage API, the current implementation calls the API using the `compact`
-    path parameter. For accurate usage according to specs, change line 39 of `dotNet_implementation/Program.cs` to: 
+    path parameter. For accurate usage according to specs (requires premium key), change line 39 of `dotNet_implementation/Program.cs` to: 
     ```
     var outputSize = "full";
     ```
