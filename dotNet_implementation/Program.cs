@@ -98,9 +98,11 @@ app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
             current.count + 1);
     }
 
-    // perform final arithmetic. Average each day using the stored count of entries that day.
-    // Note: While count could theoretically be hardcoded due to X time always being in a given 
-    // day, defensive coding here was more practical, and it is one less magic number.
+    // Perform final arithmetic. Average each day using the stored count of entries that day.
+    // NOTE: While count could theoretically be hardcoded due to X time always being in a given 
+    // day, defensive coding here was more practical. I also noted that some symbols gave 
+    // strange sets of data despite using the compact API path parameter - LSE for example.
+
     var results = groupByDay.OrderByDescending(kvp => kvp.Key).Select(kvp => new {
         day = kvp.Key,
         lowAverage = Math.Round(kvp.Value.lowSum / kvp.Value.count, 4),
