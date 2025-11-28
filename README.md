@@ -19,7 +19,10 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     dotnet run
     ```
     5. IMPORTANT NOTE: Due to limitations of the free alphavantage API, the current implementation calls the API using the `compact`
-    path parameter. For accurate usage, change line 39 of `dotNet_implementation/Program.cs` to `var outputSize = "full";`
+    path parameter. For accurate usage according to specs, change line 39 of `dotNet_implementation/Program.cs` to: 
+    ```
+    var outputSize = "full";
+    ```
     6. The API will start locally (default: http://localhost:5251).
 
     ### Example Request
