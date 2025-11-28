@@ -21,6 +21,9 @@ if (app.Environment.IsDevelopment()){
 
 app.UseHttpsRedirection();
 
+// GET endpoint: Returns transformed intraday data as a formatted json
+// Route: /api/intraday/{symbol}
+// Example call: http://localhost:5251/api/intraday/IBM
 app.MapGet("/api/intraday/{symbol}", async (string symbol) => {
     var timeInterval = "15min"; // Hardcoded due to specifications, but can be changed for testing
     var outputSize = "compact"; // Full would meet the specifications, but since it requires premium, I'm using compact.
