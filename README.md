@@ -1,7 +1,7 @@
 # PG-takehome
 A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal API to consume Alpha Vantage intraday data and expose a new JSON endpoint.
 
-## Running the Programs
+## Running the Program
 
 - Note that this process should be relatively simple. It should be very similar to running the .Net template when creating a new web API.
 
@@ -110,24 +110,12 @@ A take‑home assessment for PG. This implementation uses a C# .NET 10 Minimal A
     ### Error Handling
     - The API gracefully handles Alpha Vantage’s "Note", "Error Message", and "Information" responses.
     - Clear JSON error messages are returned instead of crashes.
-    
-## Design Decisions
-- Chose a Minimal API in .NET 10 to keep the implementation lightweight and aligned with modern best practices. 
-This approach minimized boilerplate and made the service easy to configure and run.
-- Due to Alpha Vantage’s free tier limitations, only ~100 intraday points are available at 15‑minute intervals. 
-The grouping and averaging logic was designed to scale seamlessly to a full month if premium access were available. It was further
-tested through my 
-- The HTTPS redirection warning appears in development when no certificate is configured. Since the API functions correctly over HTTP, 
-this does not affect submission or functionality.
-- Used the default .NET `.gitignore` template to ensure build artifacts (`bin/`, `obj/`) and environment files (`.env`) are excluded, 
-while keeping all necessary source and configuration files in the repository.
-- When faced with trade‑offs, I prioritized adherence to the design requirements.
 
 ## Test Branch
 
 - After careful consideration of project scope and limitations, a Json generator and injector were developed to 'simulate'
 how a full month would function if I access to the AlphaVantage Premium features.
-- Here are simple instructions to use the test branch. Otherwise a generated Json is already in the 'fixtures' folder of the primary project.
+- Here are simple instructions to use the tools within test branch. Otherwise a generated Json is already in the 'fixtures' folder of the test branch API.
 
 1. Essentially, there are 2 differences from the primary deployment. The Tool folder essentially exists as a host for a second dotNet project.
 It's a simple script designed to take a seed, and other basic user input, and output a Json shaped like the intraday outputs. There isn't guaranteed
@@ -141,3 +129,16 @@ a JSON to `tools/fixtures/`. Copy that file into `dotNet_implementation/fixtures
 4. Inspect the output via the exposed endpoint via browser or curl- nothing changes in this part of the process because 
 of the way the switch works. Output verification can be performed by-hand, since automating a check wouldn't be useful 
 due to replication of API logic.
+
+## Design Decisions
+- Chose a Minimal API in .NET 10 to keep the implementation lightweight and aligned with modern best practices. 
+This approach minimized boilerplate and made the service easy to configure and run.
+- Due to Alpha Vantage’s free tier limitations, only ~100 intraday points are available at 15‑minute intervals. 
+The grouping and averaging logic was designed to scale seamlessly to a full month if premium access were available. It was further
+tested through my 
+- The HTTPS redirection warning appears in development when no certificate is configured. Since the API functions correctly over HTTP, 
+this does not affect submission or functionality.
+- Used the default .NET `.gitignore` template to ensure build artifacts (`bin/`, `obj/`) and environment files (`.env`) are excluded, 
+while keeping all necessary source and configuration files in the repository.
+- When faced with trade‑offs, I prioritized adherence to the design requirements.
+
