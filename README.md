@@ -140,7 +140,7 @@ due to replication of API logic.
 This approach minimized boilerplate and made the service easy to configure and run.
 - Due to Alpha Vantage’s free tier limitations, only ~100 intraday points are available at 15‑minute intervals. 
 The grouping and averaging logic was designed to scale seamlessly to a full month if premium access were available. It was further
-tested through my 
+tested through my Test Branch.
 - The HTTPS redirection warning appears in development when no certificate is configured. Since the API functions correctly over HTTP, 
 this does not affect submission or functionality.
 - Used the default .NET `.gitignore` template to ensure build artifacts (`bin/`, `obj/`) and environment files (`.env`) are excluded, 
