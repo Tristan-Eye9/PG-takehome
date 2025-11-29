@@ -135,7 +135,7 @@ a JSON to `tools/fixtures/`. Copy that file into `dotNet_implementation/fixtures
 of the way the switch works. Output verification can be performed by-hand, since automating a check wouldn't be useful 
 due to replication of API logic.
 
-## Design Decisions
+## Misc. Design Notes
 - Chose a Minimal API in .NET 10 to keep the implementation lightweight and aligned with modern best practices. 
 This approach minimized boilerplate and made the service easy to configure and run.
 - Due to Alpha Vantage’s free tier limitations, only ~100 intraday points are available at 15‑minute intervals. 
